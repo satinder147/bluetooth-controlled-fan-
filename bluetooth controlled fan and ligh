@@ -1,0 +1,53 @@
+//this code is written by satinder singh, and you are allowed to use or modify this code
+//you can make a bluetooth controllled arduino based fan and light controller
+//it is a really easy project and anyone can make it within 2 hours 
+//you can just upload the code make and connect the components and you are ready to go.
+
+
+//the connections are as follows:
+//digital pin 11(in my case):to arduino and connect the shield to the arduino
+
+
+
+#include<Servo.h>
+Servo myservo;                            //declares a variable "myservo"
+char command;
+
+void setup() 
+{       
+  Serial.begin(9600);                     //Set the baud rate to your Bluetooth module.
+  myservo.attach(11);                    //Attach the servo to pin 11 of arduino
+}
+
+
+
+void loop(){
+  if(Serial.available() > 0){           //check the availibility of signal from the phone.
+    command = Serial.read();           //serial read receives the signal from the phone and stores the character in "command"
+  /* Serial.println(command);*/       //you can check the characters received in the serial monitor
+    switch(command){                 //if the app sends "F" then "switch_off" function is initiated.
+    case 'F':  
+      switch_off();
+      break;
+    case 'B':  
+       switch_on();                  //if the app sends "B" then "switch_on" function is initiated.
+      break;
+   
+    }
+  } 
+}
+
+void switch_off()
+{ 
+ myservo.write(180);                //this writes the angle into the servo          you have to play with angles acoording to your setup
+ delay(100);                        //gives time to the servo to reach that angle
+ 
+}
+
+void switch_on()
+{
+myservo.write(120   );             //this writes the angle into the servo            you have to play with angles acoording to your setup
+delay(100);                        //gives time to the servo to reach that angle
+
+}
+
